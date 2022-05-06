@@ -13,6 +13,11 @@ struct Home: View {
     
     @Namespace var animation
     
+    // fetching task
+    @FetchRequest(entity: Task.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Task.deadline, ascending: false)], predicate: nil, animation: .easeInOut) var tasks: FetchedResults<Task>
+    
+    @Environment(\.self) var env
+    
     var body: some View {
        
         ScrollView(.vertical, showsIndicators: false) {
@@ -33,6 +38,8 @@ struct Home: View {
                     .padding(.top, 5)
             }
             .padding()
+            
+            TaskView()
         }
         .overlay(alignment: .bottom) {
             
@@ -75,6 +82,109 @@ struct Home: View {
         }, content: {
             AddNewTask().environmentObject(taskModel)
         })
+    }
+    
+    @ViewBuilder
+    func TaskView() -> some View {
+        
+        LazyVStack(spacing: 20) {
+            
+            ForEach(tasks) { task in
+                
+                TaskRowView(task: task)
+            }
+            .padding()
+        }
+//        .padding(.top, 20)
+    }
+    
+    @ViewBuilder
+    func TaskRowView(task: Task) -> some View{
+        
+        VStack(alignment: .leading, spacing: 10) {
+            
+            HStack{
+                
+                Text(task.type ?? "")
+                    .font(.callout)
+                    .padding(.vertical, 5)
+                    .padding(.horizontal)
+                    .background {
+                        
+                        Capsule()
+                            .fill(.white.opacity(0.3))
+                    }
+                
+                Spacer()
+                
+                if !task.isCompleted {
+                    
+                    Button {
+                        
+                        taskModel.editTask = task
+                        taskModel.openEditTask = true
+                        taskModel.setupTask()
+                    } label: {
+                        
+                        Image(systemName: "square.and.pencil")
+                            .foregroundColor(.black)
+                    }
+                }
+            }
+            
+            Text(task.title ?? "")
+                .font(.title2.bold())
+                .padding(.vertical, 10)
+                .foregroundColor(.black)
+            
+            HStack(alignment: .bottom, spacing: 0) {
+                
+                VStack(alignment: .leading, spacing: 10) {
+                    
+                    Label {
+                        
+                        Text((task.deadline ?? Date()).formatted(date: .long, time: .omitted))
+                    } icon: {
+                        
+                        Image(systemName: "calendar")
+                    }
+                    .font(.caption)
+                    
+                    Label {
+                        
+                        Text((task.deadline ?? Date()).formatted(date: .omitted, time: .shortened))
+                    } icon: {
+                        
+                        Image(systemName: "clock")
+                    }
+                    .font(.caption)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                
+                if !task.isCompleted {
+                    
+                    Button {
+                        
+                        task.isCompleted.toggle()
+                        try? env.managedObjectContext.save()
+                    } label: {
+                        
+                        Circle()
+                            .strokeBorder(.black, lineWidth: 1.5)
+                            .frame(width: 25, height: 25)
+                            .contentShape(Circle())
+                    }
+                }
+            }
+                
+        }
+        .padding()
+        .frame(maxWidth:.infinity)
+        .background {
+            
+            RoundedRectangle(cornerRadius: 12, style: .continuous)
+                .fill(Color(task.color ?? "Yellow"))
+        }
     }
     
     

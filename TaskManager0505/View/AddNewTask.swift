@@ -88,6 +88,7 @@ struct AddNewTask: View {
                 
                 Button {
                     
+                    taskModel.showDatePicker = true
                 } label: {
                     
                     Image(systemName: "calendar")
@@ -183,6 +184,29 @@ struct AddNewTask: View {
         }
         .frame(maxHeight: .infinity, alignment: .top)
         .padding()
+        .overlay {
+            
+            ZStack {
+                
+                if taskModel.showDatePicker {
+                    
+                    Rectangle()
+                        .fill(.ultraThinMaterial)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            
+                            taskModel.showDatePicker = false
+                        }
+                    
+                    DatePicker.init("", selection: $taskModel.taskDeadline, in: Date.now...Date.distantFuture)
+                        .datePickerStyle(.graphical)
+                        .labelsHidden()
+                        .background(.white, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .padding()
+                }
+            }
+            .animation(.easeInOut, value: taskModel.showDatePicker)
+        }
     }
 }
 

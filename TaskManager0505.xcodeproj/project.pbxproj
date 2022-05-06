@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0286BA942824ECD5003A4714 /* DynamicFilteredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0286BA932824ECD5003A4714 /* DynamicFilteredView.swift */; };
 		02CA97F8282398D900CF713F /* TaskManager0505App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CA97F7282398D900CF713F /* TaskManager0505App.swift */; };
 		02CA97FA282398D900CF713F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02CA97F9282398D900CF713F /* ContentView.swift */; };
 		02CA97FC282398DB00CF713F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02CA97FB282398DB00CF713F /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0286BA932824ECD5003A4714 /* DynamicFilteredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFilteredView.swift; sourceTree = "<group>"; };
 		02CA97F4282398D900CF713F /* TaskManager0505.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskManager0505.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		02CA97F7282398D900CF713F /* TaskManager0505App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskManager0505App.swift; sourceTree = "<group>"; };
 		02CA97F9282398D900CF713F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			children = (
 				02CA980C28239A4900CF713F /* Home.swift */,
 				02CA98102823A71C00CF713F /* AddNewTask.swift */,
+				0286BA932824ECD5003A4714 /* DynamicFilteredView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -171,6 +174,7 @@
 				02CA9804282398DB00CF713F /* TaskManager0505.xcdatamodeld in Sources */,
 				02CA980F28239CEC00CF713F /* TaskViewModel.swift in Sources */,
 				02CA9801282398DB00CF713F /* Persistence.swift in Sources */,
+				0286BA942824ECD5003A4714 /* DynamicFilteredView.swift in Sources */,
 				02CA980D28239A4900CF713F /* Home.swift in Sources */,
 				02CA98112823A71C00CF713F /* AddNewTask.swift in Sources */,
 				02CA97FA282398D900CF713F /* ContentView.swift in Sources */,
