@@ -36,8 +36,23 @@ struct DynamicFilteredView<Content: View, T>: View where T: NSManagedObject {
 
             predicate = NSPredicate(format: "\(filterKey) >= %@ AND \(filterKey) < %@ AND isCompleted == %i", argumentArray: [today, tommorow, 0])
             
-        } else {
+        } else if currentTab == "Failed" {
             
+            let today = calendar.startOfDay(for: Date())
+            let past = Date.distantPast
+            
+            let filterKey = "deadline"
+
+            predicate = NSPredicate(format: "\(filterKey) >= %@ AND \(filterKey) < %@ AND isCompleted == %i", argumentArray: [past, today, 0])
+            
+        }else {
+            
+            let today = calendar.startOfDay(for: Date())
+            let tommorow = Date.distantFuture
+            
+            let filterKey = "deadline"
+
+            predicate = NSPredicate(format: "\(filterKey) >= %@ AND \(filterKey) < %@ AND isCompleted == %i", argumentArray: [today, tommorow, 1])
         }
         
         _request = FetchRequest(entity: T.entity(), sortDescriptors: [.init(keyPath: \Task.deadline, ascending: false)], predicate: predicate, animation: .easeInOut)
@@ -45,7 +60,23 @@ struct DynamicFilteredView<Content: View, T>: View where T: NSManagedObject {
     }
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        Group {
+            
+            if request.isEmpty {
+                
+                Text("No tasks found!")
+                    .font(.system(size: 16))
+                    .fontWeight(.light)
+                    .offset(y: 100)
+            } else {
+                
+                ForEach(request,  id: \.objectID) { object in
+                    
+                    self.content(object)
+                }
+            }
+        }
     }
 }
 

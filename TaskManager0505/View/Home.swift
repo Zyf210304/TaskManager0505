@@ -89,11 +89,16 @@ struct Home: View {
         
         LazyVStack(spacing: 20) {
             
-            ForEach(tasks) { task in
+            DynamicFilteredView(currentTab: taskModel.currentTab) { (task: Task) in
                 
                 TaskRowView(task: task)
             }
-            .padding()
+            
+//            ForEach(tasks) { task in
+//
+//                TaskRowView(task: task)
+//            }
+//            .padding()
         }
 //        .padding(.top, 20)
     }
@@ -117,7 +122,7 @@ struct Home: View {
                 
                 Spacer()
                 
-                if !task.isCompleted {
+                if !task.isCompleted && taskModel.currentTab != "Failed"{
                     
                     Button {
                         
@@ -161,7 +166,7 @@ struct Home: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
-                if !task.isCompleted {
+                if !task.isCompleted && taskModel.currentTab != "Failed"{
                     
                     Button {
                         
@@ -191,7 +196,7 @@ struct Home: View {
     @ViewBuilder
     func CustomSegumentedBar() -> some View {
         
-        let tabs = ["Today", "Upcoming", "Task Done"]
+        let tabs = ["Today", "Upcoming", "Task Done", "Failed"]
         HStack(spacing: 10) {
             
             ForEach(tabs, id: \.self) { tab in
